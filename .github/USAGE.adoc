@@ -1,0 +1,42 @@
+= GSRI server manager: usage guide
+
+== Requirements
+
+_FIXME_
+
+== Configuration
+
+All configuration regarding your server must go into a configuration file. This file is expected to use PSD1 format. You can use a custom path for the file using `-ConfigFilename`
+
+Exemple file:
+
+```psd1
+@{
+    Port             = 2302
+    ServerAffinity   = 5
+    HeadlessAffinity = 10
+    GithubRepository = 'team-gsri/Scorpion'
+    
+    Hostname         = '[FR] GROUPE DE COMBAT AEROPORTE | www.gsri.team'
+    Password         = ''
+    Players          = 32
+    Admins           = @(
+        76561197967609383 # Arwyn
+    )
+
+    Mods             = @(
+        # mods required by both server and clients
+        450814997 # CBA
+    )
+    ClientMods       = @(
+        # used to download BI keys from workshop
+    )
+    ServerMods       = @(
+        # mods loaded on the server but keys are not enforced
+    )
+}
+```
+
+CAUTION: Server and Headless affinity is a bitmask, allowing each process to run on different CPU cores for performance purpose. See https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.processoraffinity#system-diagnostics-process-processoraffinity[Microsoft documentation]
+
+== Usage
