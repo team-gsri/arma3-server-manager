@@ -8,6 +8,7 @@
     Players          = 32
     Admins           = @(
         76561197967609383 # Arwyn
+        76561198060544259 # Tyypal
     )
 
     Mods             = @(
