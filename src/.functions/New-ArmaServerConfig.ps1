@@ -37,7 +37,7 @@ maxPlayers                        = ${Players};
 passwordAdmin                     = "${PasswordAdmin}";
 timeStampFormat                   = "full";
 logFile                           = "server_console.log";
-admins[]                          = { $($Admins -Join ',') };
+admins[]                          = { "$($Admins -Join '","')" };
 
 // MISSIONS CYCLE
 missionWhitelist[]                = { };
