@@ -3,7 +3,7 @@
     ServerAffinity   = 5
     HeadlessAffinity = 10
     
-    Hostname         = '[FR] MILSIM + MODS | www.gsri.team | ARGON'
+    Hostname         = '[FR] www.gsri.team | MILSIM + MODS | Argon'
     Password         = ''
     Players          = 32
     Admins           = @(
@@ -11,7 +11,7 @@
     )
 
     Mods             = @(
-        '@GSRI'
+        'mods\@GSRI'
     )
     ClientMods       = @(
     )
@@ -19,7 +19,7 @@
     )
 
     WorkshopPath     = 'C:\Arma3'
-    MasterPath       = 'C:\Arma3\instances\gcap\master'
-    ConfigPath       = 'C:\Arma3\instances\gcap\config'
-    ProfilePath      = 'C:\Arma3\instances\gcap\profile'
+    MasterPath       = 'C:\Arma3\master'
+    ConfigPath       = 'C:\Arma3\instances\gsri.argon\config'
+    ProfilePath      = 'C:\Arma3\instances\gsri.argon\profile'
 }
