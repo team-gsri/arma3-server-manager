@@ -8,7 +8,11 @@ param (
     [Parameter()]
     [ValidateScript({ If (Test-Path $_ -PathType Leaf) { $true } Else { Throw '-GithubSecretFile not found' } })]
     [string]
-    $GithubSecretFile = $(Join-Path $env:USERPROFILE .secrets/github.txt)
+    $GithubSecretFile = $(Join-Path $env:USERPROFILE .secrets/github.txt),
+
+    [Parameter()]
+    [switch]
+    $Update
 )
     
 # Configuration
@@ -22,6 +26,11 @@ $HeadlessPidFile = Join-Path $ConfigPath headless.pid
 
 # Stop server if running
 & "$PSScriptRoot/Stop-ServerInstance.ps1" -ConfigFilename $ConfigFilename
+
+# Update server if requested
+If ($Update) {
+    & "$PSScriptRoot/Update-ServerInstance.ps1" -ConfigFilename $ConfigFilename
+}
 
 # Server command line config
 $Port = $Config.Port
