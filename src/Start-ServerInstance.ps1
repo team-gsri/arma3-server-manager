@@ -12,9 +12,13 @@ param (
 
     [Parameter()]
     [switch]
-    $Update
+    $Update,
+
+    [Parameter()]
+    [switch]
+    $Headless
 )
-    
+
 # Configuration
 $Config = Import-PowerShellDataFile $ConfigFilename
 $WorkshopPath = $Config.WorkshopPath
@@ -61,20 +65,22 @@ if ($null -ne $ServerProcess) {
     $ServerProcess.ProcessorAffinity = $config.ServerAffinity
 }
 
-# Start headless
-$HeadlessArguments = @(
-    '-client'
-    '-connect=localhost'
-    "-port=${Port}"
-    """-password=${Password}"""
-    "-pid=${HeadlessPidFile}"
-    '-name=HC'
-    "-profiles=${ProfilePath}"
-    "-mod=${Mods};${ServerMods}"
-)
-$HeadlessArguments | ForEach-Object { Write-Debug $_ }
-$HeadlessProcess = Start-Process "$armaExe" -ArgumentList $HeadlessArguments -PassThru
-if ($null -ne $HeadlessProcess) {
-    $HeadlessProcess.PriorityClass = 'High'
-    $HeadlessProcess.ProcessorAffinity = $config.HeadlessAffinity
+if ($Headless) {
+    # Start headless
+    $HeadlessArguments = @(
+        '-client'
+        '-connect=localhost'
+        "-port=${Port}"
+        """-password=${Password}"""
+        "-pid=${HeadlessPidFile}"
+        '-name=HC'
+        "-profiles=${ProfilePath}"
+        "-mod=${Mods};${ServerMods}"
+    )
+    $HeadlessArguments | ForEach-Object { Write-Debug $_ }
+    $HeadlessProcess = Start-Process "$armaExe" -ArgumentList $HeadlessArguments -PassThru
+    if ($null -ne $HeadlessProcess) {
+        $HeadlessProcess.PriorityClass = 'High'
+        $HeadlessProcess.ProcessorAffinity = $config.HeadlessAffinity
+    }
 }
