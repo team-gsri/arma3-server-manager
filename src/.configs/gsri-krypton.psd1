@@ -7,6 +7,9 @@
     GithubRepository = 'team-gsri/Entrainement'
     Password         = ''
     Players          = 32
+    VerifySignatures = $true
+    DisableChannels  = @(0..5)
+    
     Admins           = @(
         76561198117240462 # Atta
         76561197967609383 # Arwyn

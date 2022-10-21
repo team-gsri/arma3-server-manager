@@ -7,12 +7,15 @@
     GithubRepository = 'team-gsri/Scorpion'
     Password         = ''
     Players          = 32
+    VerifySignatures = $true
+    DisableChannels  = @(0..5)
+
     Admins           = @(
         76561197967609383 # Arwyn
         76561198060544259 # Tyypal
     )
 
-    Mods = @(
+    Mods             = @(
         450814997   # CBA
         463939057   # ACE        
         333310405   # Enhanced Movement
@@ -20,13 +23,13 @@
         894678801   # TFAR beta
         1781990846  # AMF
     )
-    ClientMods = @(
+    ClientMods       = @(
         1937479604  # GSRI Zeus Manager
         1779063631  # Zeus Enhanced
         2018593688  # Zeus Enhanced ACE 3 compat
         721359761   # VCOM AI
     )
-    ServerMods = @(
+    ServerMods       = @(
         1937479604  # GSRI Zeus Manager
         1779063631  # Zeus Enhanced
         2018593688  # Zeus Enhanced ACE 3 compat

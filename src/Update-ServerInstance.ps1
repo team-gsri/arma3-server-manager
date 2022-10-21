@@ -55,12 +55,14 @@ If (Test-Path $Config.ConfigPath) { Get-ChildItem $Config.ConfigPath -Filter *.c
 Copy-Item $TemplatePath/basic.cfg $(Join-Path $Config.ConfigPath basic.cfg)
 $Mission = Get-ChildItem $MissionPath -Filter *.pbo | Select-Object -First 1
 $ServerConfig = @{
-    Hostname = $Config.Hostname
-    Password = $Config.Password
-    Players  = $Config.Players
-    Admins   = $Config.Admins
-    Mission  = $Mission.BaseName
-    File     = Join-Path $Config.ConfigPath server.cfg
+    Hostname         = $Config.Hostname
+    Password         = $Config.Password
+    Players          = $Config.Players
+    Admins           = $Config.Admins
+    Mission          = $Mission.BaseName
+    VerifySignatures = $Config.VerifySignatures
+    DisableChannels  = $Config.DisableChannels
+    File             = Join-Path $Config.ConfigPath server.cfg
 }
 $ServerConfig | ConvertTo-Json | Write-Debug
 & "$FunctionsPath/New-ArmaServerConfig.ps1" @ServerConfig
