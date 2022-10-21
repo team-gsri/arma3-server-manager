@@ -45,6 +45,6 @@ $_DisableChannels = "{ $($DisableChannels -Join ',') }"
 $_VerifySignatures = $VerifySignatures ? 2 : 0
 
 '' | Set-Content $File
-Get-Content ../.templates/server.cfg | ForEach-Object {
+Get-Content $PSScriptRoot/../.templates/server.cfg | ForEach-Object {
     $ExecutionContext.InvokeCommand.ExpandString($_) | Add-Content $File
 }
