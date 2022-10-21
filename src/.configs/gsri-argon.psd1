@@ -6,6 +6,9 @@
     Hostname         = '[FR] www.gsri.team | MILSIM + MODS | Argon'
     Password         = ''
     Players          = 32
+    VerifySignatures = $true
+    DisableChannels  = @(0..5)
+    
     Admins           = @(
         76561197967609383 # Arwyn
         76561198060544259 # Tyypal

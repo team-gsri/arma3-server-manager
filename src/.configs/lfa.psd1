@@ -6,6 +6,9 @@
     Hostname         = '[FR] OPERATION MOUNTAIN GULL | www.gsri.team'
     Password         = 'bosphore'
     Players          = 64
+    VerifySignatures = $false
+    DisableChannels  = @()
+
     Admins           = @(
         76561197967609383 # Arwyn
     )
