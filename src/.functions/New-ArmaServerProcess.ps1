@@ -29,11 +29,11 @@ $ServerPidFile = Join-Path $ConfigPath server.pid
 $HeadlessPidFile = Join-Path $ConfigPath headless.pid
 
 # Stop server if running
-& "$PSScriptRoot/Stop-ServerInstance.ps1" -ConfigFilename $ConfigFilename
+& "$PSScriptRoot/../Stop-ServerInstance.ps1" -ConfigFilename $ConfigFilename
 
 # Update server if requested
 If ($Update) {
-    & "$PSScriptRoot/Update-ServerInstance.ps1" -ConfigFilename $ConfigFilename
+    & "$PSScriptRoot/../Update-ServerInstance.ps1" -ConfigFilename $ConfigFilename
 }
 
 # Server command line config

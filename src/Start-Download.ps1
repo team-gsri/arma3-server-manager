@@ -16,8 +16,8 @@ Write-Debug "Following addons will be downloaded : $Addons"
 
 
 @( "app_update 233780 validate" ) |`
-& $PSScriptRoot/.functions/Start-ArmaCmdCommands.ps1 -Path $Config.MasterPath -Quit
+& $PSScriptRoot/.functions/Start-SteamcmdCommands.ps1 -Path $Config.MasterPath -Quit
 
 $Addons |`
     ForEach-Object { "workshop_download_item 107410 $_" } |`
-    & $PSScriptRoot/.functions/Start-ArmaCmdCommands.ps1 -Path $Config.WorkshopPath -Quit:$Quit
+    & $PSScriptRoot/.functions/Start-SteamcmdCommands.ps1 -Path $Config.WorkshopPath -Quit:$Quit
