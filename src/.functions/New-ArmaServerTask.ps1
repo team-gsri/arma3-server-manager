@@ -14,21 +14,16 @@ param (
     $At = '5am'
 )
 
-$TaskArguments = @{
-    ExecutionPolicy = 'Bypass'
-    File            = Join-Path $PSScriptRoot .functions/Start-ArmaServerProcess.ps1
-    ConfigFilename  = $ConfigFilename
-}
-
 $PwshExe = 'C:\Program Files\PowerShell\7\pwsh.exe'
-$ArgumentString = ($TaskArguments.Keys | ForEach-Object { "-$_ $($TaskArguments[$_])" }) -Join ' '
+$File = Join-Path $PSSciptRoot New-ArmaServerProcess.ps1
+$ArgumentString = "-ExecutionPolicy Bypass -File $File -ConfigFilename $ConfigFilename"
 
 $SchedulerArguments = @{
-    Action    = New-ScheduledTaskAction -Execute -Argument $ArgumentString
+    Action    = New-ScheduledTaskAction -Execute $PwshExe -Argument $ArgumentString
     Principal = New-ScheduledTaskPrincipal -UserId $UserId -LogonType ServiceAccount
     Trigger   = New-ScheduledTaskTrigger -Daily -At $At
     TaskName  = (Get-Item $ConfigFilename).BaseName
-    TaskPath  = /Arma3
+    TaskPath  = '\Arma3\'
 }
 
 Write-Debug "$PwshExe $ArgumentString"
