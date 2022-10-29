@@ -16,7 +16,7 @@ function Stop-ProcessFromPidFile {
 
     Process {
         If (Test-Path -PathType Leaf $Filename) {
-            Get-Process -Id $(Get-Content $Filename) | Stop-Process
+            Get-Process -Id $(Get-Content $Filename) | Stop-Process -Force
         }
     }
 
