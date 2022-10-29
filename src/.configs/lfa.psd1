@@ -8,7 +8,7 @@
     Players          = 32
     VerifySignatures = $false
     Update           = $true
-    headless         = $true
+    Headless         = $true
     DisableChannels  = @()
 
     Admins           = @(
