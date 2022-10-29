@@ -30,6 +30,7 @@ Get-ChildItem -Recurse -Filter *.bikey $KeyPath | Remove-Item -Force
 $KeysZip = New-TemporaryFile
 Invoke-WebRequest -Uri 'https://arma.gsri.team/legacy/keys.zip' -OutFile $KeysZip
 Expand-Archive -Path $KeysZip -DestinationPath $KeyPath
+Remove-Item -Force $KeysZip
 $Addons | ForEach-Object {
     $Path = $_
     If ($_ -Match '[0-9]+') {
