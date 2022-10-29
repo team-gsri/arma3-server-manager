@@ -7,6 +7,8 @@
     Password         = 'bouh!'
     Players          = 32
     VerifySignatures = $false
+    Update           = $true
+    headless         = $true
     DisableChannels  = @()
 
     Admins           = @(

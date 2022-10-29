@@ -8,7 +8,9 @@
     Password         = ''
     Players          = 32
     VerifySignatures = $true
-    DisableChannels  = @(0,1,2,3,4,5)
+    Update           = $false
+    Headless         = $false
+    DisableChannels  = @(0, 1, 2, 3, 4, 5)
     
     Admins           = @(
         76561198117240462 # Atta

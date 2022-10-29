@@ -8,7 +8,9 @@
     Password         = ''
     Players          = 32
     VerifySignatures = $true
-    DisableChannels  = @(0,1,2,3,4,5)
+    Update           = $true
+    Headless         = $true
+    DisableChannels  = @(0, 1, 2, 3, 4, 5)
 
     Admins           = @(
         76561197967609383 # Arwyn
