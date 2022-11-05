@@ -14,11 +14,6 @@ param (
     $GithubSecretFile = $(Join-Path $env:USERPROFILE .secrets/github.txt)
 )
 
-# Create directory if not exist
-if (-Not (Test-Path $MissionPath)) {
-    New-Item -ItemType Directory $MissionPath
-}
-
 # Remove existing missions
 Get-ChildItem $MissionPath -Filter *.pbo | Remove-Item
 

@@ -26,7 +26,7 @@ $Addons | & "$FunctionsPath/Copy-BohemiaKeys.ps1" -WorkshopPath $Config.Workshop
 & "$FunctionsPath/Copy-Mission.ps1" -MissionPath $MissionPath -GithubRepository $Config.GithubRepository -GithubSecretFile $GithubSecretFile
 
 # Generate server config
-If (-Not(Test-Path $Config.ConfigPath)) { New-Item $Config.ConfigPath -ItemType Directory }
+If (-Not(Test-Path $Config.ConfigPath)) { New-Item $Config.ConfigPath -ItemType Directory | Out-Null }
 If (Test-Path $Config.ConfigPath) { Get-ChildItem $Config.ConfigPath -Filter *.cfg | Remove-Item -Force }
 Copy-Item $TemplatePath/basic.cfg $(Join-Path $Config.ConfigPath basic.cfg)
 $Mission = Get-ChildItem $MissionPath -Filter *.pbo | Select-Object -First 1
@@ -40,5 +40,6 @@ $ServerConfig = @{
     DisableChannels  = $Config.DisableChannels
     File             = Join-Path $Config.ConfigPath server.cfg
 }
-$ServerConfig | ConvertTo-Json | Write-Debug
+Write-Debug 'Updating server configuration with these parameters:'
+$ServerConfig | ConvertTo-Json -Compress -AsArray | Write-Debug
 & "$FunctionsPath/New-ArmaServerConfig.ps1" @ServerConfig

@@ -18,14 +18,11 @@ param (
 )
 
 Begin {
-    if (-Not (Test-Path $WorkshopPath)) {
-        New-Item -ItemType Directory $WorkshopPath
-    }
-
     # Remove existing keys
     Get-ChildItem -Recurse -Filter *.bikey $DestinationPath | Remove-Item -Force
 
     # Download official BI keys
+    Write-Debug "Download official BI keys from $OfficialKeysUri"
     $KeysZip = New-TemporaryFile
     Invoke-WebRequest -Uri $OfficialKeysUri -OutFile $KeysZip
     Expand-Archive -Path $KeysZip -DestinationPath $DestinationPath

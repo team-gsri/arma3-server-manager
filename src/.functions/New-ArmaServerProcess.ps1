@@ -21,11 +21,12 @@ $ServerPidFile = Join-Path $ConfigPath server.pid
 $HeadlessPidFile = Join-Path $ConfigPath headless.pid
 
 # Stop server if running
-& "$PSScriptRoot/../Stop-ServerInstance.ps1" -ConfigFilename $ConfigFilename
+& "$PSScriptRoot/../Stop-ArmaServer.ps1" -ConfigFilename $ConfigFilename
 
 # Update server if requested
 If ($Config.Update) {
-    & "$PSScriptRoot/../Update-ServerInstance.ps1" -ConfigFilename $ConfigFilename
+    Write-Debug 'Updating server before start'
+    & "$PSScriptRoot/../Update-ArmaServer.ps1" -ConfigFilename $ConfigFilename
 }
 
 # Server command line config
@@ -50,6 +51,7 @@ $ServerArguments = @(
     "-mod=${Mods}"
     "-serverMod=${ServerMods}"
 )
+Write-Debug 'Starting game server process with parameters:'
 $ServerArguments | ForEach-Object { Write-Debug $_ }
 $ServerProcess = Start-Process "${ArmaExe}" -ArgumentList ${ServerArguments} -PassThru
 if ($null -ne $ServerProcess) {
@@ -69,6 +71,7 @@ if ($Config.Headless) {
         "-profiles=${ProfilePath}"
         "-mod=${Mods};${ServerMods}"
     )
+    Write-Debug 'Starting headless client process with parameters:'
     $HeadlessArguments | ForEach-Object { Write-Debug $_ }
     $HeadlessProcess = Start-Process "$armaExe" -ArgumentList $HeadlessArguments -PassThru
     if ($null -ne $HeadlessProcess) {

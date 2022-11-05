@@ -27,6 +27,7 @@ function Stop-ProcessFromPidFile {
     }
 }
 
+Write-Debug 'Attempting to stop server instance'
 $Config = Import-PowerShellDataFile $ConfigFilename
 Stop-ProcessFromPidFile -Filename $(Join-Path $Config.ConfigPath headless.pid)
 Stop-ProcessFromPidFile -Filename $(Join-Path $Config.ConfigPath server.pid)

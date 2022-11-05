@@ -14,8 +14,9 @@ param (
     $At = '5am'
 )
 
-$PwshExe = 'C:\Program Files\PowerShell\7\pwsh.exe'
-$File = Join-Path $PSSciptRoot New-ArmaServerProcess.ps1
+$ConfigFilename = Resolve-Path $ConfigFilename
+$PwshExe = '"C:\Program Files\PowerShell\7\pwsh.exe"'
+$File = Join-Path $PSScriptRoot New-ArmaServerProcess.ps1
 $ArgumentString = "-ExecutionPolicy Bypass -File $File -ConfigFilename $ConfigFilename"
 
 $SchedulerArguments = @{
