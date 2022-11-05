@@ -2,7 +2,7 @@
     Port             = 2302
     ServerAffinity   = 5
     HeadlessAffinity = 10
-    
+
     Hostname         = '[FR] GROUPE DE COMBAT AEROPORTE | www.gsri.team'
     GithubRepository = 'team-gsri/Scorpion'
     Password         = ''
@@ -19,7 +19,7 @@
 
     Mods             = @(
         450814997   # CBA
-        463939057   # ACE        
+        463939057   # ACE
         333310405   # Enhanced Movement
         2034363662  # Enhanced Movement Rework
         894678801   # TFAR beta
