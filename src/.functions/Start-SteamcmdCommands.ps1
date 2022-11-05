@@ -29,9 +29,9 @@ param (
 )
 
 Begin {
-    $CommandsFilename = New-TemporaryFile
-    If ($null -eq $CommandsFilename) { $CommandsFilename = 'New-TemporaryFile' }
-    Write-Debug "Commands file is $CommandsFilename"
+    $CommandsFilename = $(New-TemporaryFile) ?? 'New-TemporaryFile'
+    Write-Debug "Commands file: $CommandsFilename"
+    Write-Debug "Install directory: $Path"
     @(
         "force_install_dir ${Path}"
         "login $(Get-Content ${SteamSecretFile}) $(& ${SteamguardExe})"
@@ -44,7 +44,7 @@ Process {
 }
 
 End {
-    If ($Quit) { "quit" | Add-Content "$CommandsFilename" }
+    If ($Quit) { 'quit' | Add-Content "$CommandsFilename" }
     If ($PSCmdlet.ShouldProcess("$CommandsFilename", 'steamcmd runscript')) {
         & "${SteamcmdExe}" +runscript $CommandsFilename
     }

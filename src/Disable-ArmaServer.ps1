@@ -16,7 +16,7 @@ $TaskInfo = @{
 }
 
 if ($Stop) {
-    & "$PSScriptRoot/Stop-ServerInstance.ps1" -ConfigFilename $ConfigFilename
+    & "$PSScriptRoot/Stop-ArmaServer.ps1" -ConfigFilename $ConfigFilename
 }
 
 Disable-ScheduledTask @TaskInfo
