@@ -2,13 +2,15 @@
     Port             = 2302
     ServerAffinity   = 5
     HeadlessAffinity = 10
-    
+
     Hostname         = '[FR] GROUPE DE COMBAT AEROPORTE | www.gsri.team'
     GithubRepository = 'team-gsri/Scorpion'
     Password         = ''
     Players          = 32
     VerifySignatures = $true
-    DisableChannels  = @(0,1,2,3,4,5)
+    Update           = $true
+    Headless         = $true
+    DisableChannels  = @(0, 1, 2, 3, 4, 5)
 
     Admins           = @(
         76561197967609383 # Arwyn
@@ -17,7 +19,7 @@
 
     Mods             = @(
         450814997   # CBA
-        463939057   # ACE        
+        463939057   # ACE
         333310405   # Enhanced Movement
         2034363662  # Enhanced Movement Rework
         894678801   # TFAR beta

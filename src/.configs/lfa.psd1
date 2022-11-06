@@ -2,11 +2,13 @@
     Port             = 2302
     ServerAffinity   = 5
     HeadlessAffinity = 10
-    
+
     Hostname         = '[FR] ALONE | LFA | www.gsri.team'
     Password         = 'bouh!'
     Players          = 32
     VerifySignatures = $false
+    Update           = $true
+    Headless         = $true
     DisableChannels  = @()
 
     Admins           = @(
