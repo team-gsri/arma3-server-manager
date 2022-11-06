@@ -1,4 +1,4 @@
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess)]
 param (
     [Parameter(Mandatory)]
     [ValidateScript({ If (Test-Path $_ -PathType Leaf) { $true } Else { Throw '-ConfigFilename not found' } })]
@@ -19,4 +19,5 @@ if ($Stop) {
     & "$PSScriptRoot/Stop-ArmaServer.ps1" -ConfigFilename $ConfigFilename
 }
 
+$TaskInfo | ConvertTo-Json -Compress | Write-Debug
 Disable-ScheduledTask @TaskInfo
