@@ -32,8 +32,8 @@ If ($Config.Update) {
 # Server command line config
 $Port = $Config.Port
 $Password = $Config.Password
-$Mods = ($config.Mods | ForEach-Object { ($_ -Match '[0-9]+') ? "$WorkshopPath\steamapps\workshop\content\107410\$_" : $_ }) -Join ';'
-$ServerMods = ($config.ServerMods | ForEach-Object { ($_ -Match '[0-9]+') ? "$WorkshopPath\steamapps\workshop\content\107410\$_" : $_ }) -Join ';'
+$Mods = ($config.Mods | ForEach-Object { ($_ -Match '^[0-9]+$') ? "$WorkshopPath\steamapps\workshop\content\107410\$_" : $_ }) -Join ';'
+$ServerMods = ($config.ServerMods | ForEach-Object { ($_ -Match '^[0-9]+$') ? "$WorkshopPath\steamapps\workshop\content\107410\$_" : $_ }) -Join ';'
 $ArmaExe = Join-Path $MasterPath arma3server_x64.exe
 
 # Start server

@@ -11,13 +11,15 @@ param (
 )
 
 $Config = Import-PowerShellDataFile $ConfigFilename
-$Addons = ($config.Mods + $config.ClientMods + $config.ServerMods) -Match '[0-9]+' | Select-Object -Unique
+$Addons = ($config.Mods + $config.ClientMods + $config.ServerMods) -Match '^[0-9]+$' | Select-Object -Unique
 Write-Debug "Following addons will be downloaded : $Addons"
 
 @( 233780 ) | ForEach-Object {
     "app_update $_ validate"
 } | & "$PSScriptRoot/.functions/Start-SteamcmdCommands.ps1" -Path $Config.MasterPath -Quit
 
-$Addons | ForEach-Object {
-    "workshop_download_item 107410 $_"
-} | & "$PSScriptRoot/.functions/Start-SteamcmdCommands.ps1" -Path $Config.WorkshopPath -Quit:$Quit
+if ($null -ne $Addons) {
+    $Addons | ForEach-Object {
+        "workshop_download_item 107410 $_"
+    } | & "$PSScriptRoot/.functions/Start-SteamcmdCommands.ps1" -Path $Config.WorkshopPath -Quit:$Quit
+}
