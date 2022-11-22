@@ -24,6 +24,9 @@
         2034363662  # Enhanced Movement Rework
         894678801   # TFAR beta
         1781990846  # AMF
+        583496184   # CUP core
+        583544987   # CUP maps
+        633789490   # Fallujah
     )
     ClientMods       = @(
         1937479604  # GSRI Zeus Manager
