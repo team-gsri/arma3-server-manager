@@ -8,9 +8,9 @@
     Password         = ''
     Players          = 32
     VerifySignatures = $true
-    Update           = $false
+    Update           = $true
     Headless         = $false
-    DisableChannels  = @(0, 1, 2, 3, 4, 5)
+    DisableChannels  = @()
 
     Admins           = @(
         76561198117240462 # Atta
@@ -24,15 +24,19 @@
     )
 
     Mods             = @(
-        'mods\@GSRI'
+        'C:\Arma3\mods\@GSRI'
     )
     ClientMods       = @(
+        'C:\Arma3\mods\@Soundscape'
+        'C:\Arma3\mods\@VileHUD'
+        'C:\Arma3\mods\@Blastcore'
+        'C:\Arma3\mods\@JSRS'
     )
     ServerMods       = @(
     )
 
     WorkshopPath     = 'C:\Arma3'
-    MasterPath       = 'C:\Arma3\master'
+    MasterPath       = 'C:\Arma3\instances\gsri.krypton\master'
     ConfigPath       = 'C:\Arma3\instances\gsri.krypton\config'
     ProfilePath      = 'C:\Arma3\instances\gsri.krypton\profile'
 }
