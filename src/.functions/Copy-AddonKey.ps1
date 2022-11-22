@@ -16,7 +16,7 @@ param (
 )
 
 Begin {
-    $WorkshopPattern = '[0-9]+'
+    $WorkshopPattern = '^[0-9]+$'
 }
 
 Process {
