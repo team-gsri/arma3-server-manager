@@ -4,7 +4,6 @@
     HeadlessAffinity = 10
 
     Hostname         = '[FR] GROUPE DE COMBAT AEROPORTE | www.gsri.team'
-    GithubRepository = 'team-gsri/Scorpion'
     Password         = ''
     Players          = 32
     VerifySignatures = $true
@@ -40,6 +39,11 @@
         2018593688  # Zeus Enhanced ACE 3 compat
         721359761   # VCOM AI
     )
+
+    Mission          = @{
+        Type = 'Github'
+        Path = 'team-gsri/Scorpion'
+    }
 
     WorkshopPath     = 'C:\Arma3'
     MasterPath       = 'C:\Arma3\instances\gcap\master'

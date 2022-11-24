@@ -4,7 +4,6 @@
     HeadlessAffinity = 5
 
     Hostname         = '[FR] www.gsri.team | MILSIM + MODS | Krypton'
-    GithubRepository = 'team-gsri/Entrainement'
     Password         = ''
     Players          = 32
     VerifySignatures = $true
@@ -34,6 +33,11 @@
     )
     ServerMods       = @(
     )
+
+    Mission          = @{
+        Type = 'Github'
+        Path = 'team-gsri/Entrainement'
+    }
 
     WorkshopPath     = 'C:\Arma3'
     MasterPath       = 'C:\Arma3\instances\gsri.krypton\master'

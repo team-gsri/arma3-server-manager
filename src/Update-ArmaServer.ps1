@@ -23,7 +23,7 @@ $Addons = $config.Mods + $config.ClientMods + $config.ServerMods | Select-Object
 & "$PSScriptRoot/Stop-ArmaServer.ps1" -ConfigFilename $ConfigFilename
 & "$PSScriptRoot/Start-Download.ps1" -ConfigFilename $ConfigFilename -Quit
 $Addons | & "$FunctionsPath/Copy-BohemiaKeys.ps1" -WorkshopPath $Config.WorkshopPath -DestinationPath $KeyPath
-& "$FunctionsPath/Copy-Mission.ps1" -MissionPath $MissionPath -GithubRepository $Config.GithubRepository -GithubSecretFile $GithubSecretFile
+& "$FunctionsPath/Copy-Mission.ps1" -MissionPath $MissionPath -GithubSecretFile $GithubSecretFile -Type $config.Mission.Type -Path $config.Mission.Path
 
 # Generate server config
 If (-Not(Test-Path $Config.ConfigPath)) { New-Item $Config.ConfigPath -ItemType Directory | Out-Null }
