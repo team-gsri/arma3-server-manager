@@ -15,7 +15,7 @@ param (
 )
 
 $ConfigFilename = Resolve-Path $ConfigFilename
-$PwshExe = '"C:\Program Files\PowerShell\7\pwsh.exe"'
+$PwshExe = (Get-Command pwsh).Path
 $File = Join-Path $PSScriptRoot New-ArmaServerProcess.ps1
 $ArgumentString = "-ExecutionPolicy Bypass -File $File -ConfigFilename $ConfigFilename"
 
