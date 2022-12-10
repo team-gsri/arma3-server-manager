@@ -7,7 +7,7 @@
 * https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip[Steamcmd]
 * https://github.com/dyc3/steamguard-cli[steamguard-cli]
 * https://github.com/PowerShell/PowerShell[Pwsh 7+]
-* https://store.steampowered.com/app/233800[Arma 3 Tools]
+* https://cli.github.com/[GitHub CLI]
 
 === Accounts
 
@@ -21,9 +21,10 @@
 
 === Environment variables
 
-ARMA3TOOLS:: Path to your Arma 3 Tools installation (ex: `D:\SteamLibrary\steamapps\common\Arma 3 Tools`)
 STEAMCMD:: Path to the steamcmd executable (ex: `C:\Program Files (x86)\steamcmd\steamcmd.exe`)
 STEAMGUARD:: Path to the steamguard-cli executable (ex: `C:\Program Files\steamguard\steamguard-cli.exe`)
+
+GitHub CLI should be in the PATH environment variable.
 
 === Credentials
 
@@ -52,7 +53,6 @@ Exemple file:
     HeadlessAffinity = 10                                  # bitmask for CPU affinity of the headless client
 
     Hostname         = '[FR] SERVER NAME | www.gsri.team'  # name of the server visible on the launcher
-    GithubRepository = 'team-gsri/Scorpion'                # download .pbo file from this repository's latest release ; omit to look into current working directory
     Password         = 'bouh!'                             # password for client connection
     Players          = 32                                  # max players for the server
     VerifySignatures = $true                               # wether the server should verify clients pbo signatures
@@ -75,10 +75,22 @@ Exemple file:
         894678801
     )
 
+    # Select one of below options, depending on how you want to obtain the mission pbo file:
+
+    Mission          = @{                                  # the mission that will run on the server
+        Type = 'Local'                                     # when you have the pbo file locally
+        Path = 'C:\Arma3\instances\abcd\mission'            # the script will look into this directory
+    }
+
+    Mission          = @{                                  # the mission to run on the server
+        Type = 'Github'                                    # when you want to download the pbo from GitHub
+        Path = 'team-gsri/Entrainement'                    # the script will look into this repository's latest release
+    }
+
     WorkshopPath     = 'C:\Arma3'                          # Path for workshop mods (WorkshopPath/steamapps/workshop/ ...)
-    MasterPath       = 'C:\Arma3\instances\lfa\master'     # Path for the Arma3 server executable
-    ConfigPath       = 'C:\Arma3\instances\lfa\config'     # Path for server.cfg, basic.cfg, and pid files
-    ProfilePath      = 'C:\Arma3\instances\lfa\profile'    # Path for the server profile
+    MasterPath       = 'C:\Arma3\instances\abcd\master'    # Path for the Arma3 server executable
+    ConfigPath       = 'C:\Arma3\instances\abcd\config'    # Path for server.cfg, basic.cfg, and pid files
+    ProfilePath      = 'C:\Arma3\instances\abcd\profile'   # Path for the server profile
 }
 ```
 
