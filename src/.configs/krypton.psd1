@@ -9,7 +9,7 @@
     VerifySignatures = $true
     Update           = $true
     Headless         = $false
-    DisableChannels  = @()
+    DisableChannels  = @(0, 2, 3, 4, 5)
 
     Admins           = @(
         76561198117240462 # Atta

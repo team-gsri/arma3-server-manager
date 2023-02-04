@@ -8,12 +8,13 @@
     Players          = 32
     VerifySignatures = $true
     Update           = $true
-    Headless         = $true
-    DisableChannels  = @(0, 1, 2, 3, 4, 5)
+    Headless         = $false
+    DisableChannels  = @(0, 2, 3, 4, 5)
 
     Admins           = @(
         76561197967609383 # Arwyn
         76561198060544259 # Tyypal
+        76561198001442217 # Aunax
     )
 
     Mods             = @(
@@ -23,18 +24,15 @@
         2034363662  # Enhanced Movement Rework
         894678801   # TFAR beta
         1781990846  # AMF
-        583496184   # CUP core
-        583544987   # CUP maps
-        633789490   # Fallujah
     )
     ClientMods       = @(
-        1937479604  # GSRI Zeus Manager
+        2876103099  # GSRI Zeus Manager
         1779063631  # Zeus Enhanced
         2018593688  # Zeus Enhanced ACE 3 compat
         721359761   # VCOM AI
     )
     ServerMods       = @(
-        1937479604  # GSRI Zeus Manager
+        2876103099  # GSRI Zeus Manager
         1779063631  # Zeus Enhanced
         2018593688  # Zeus Enhanced ACE 3 compat
         721359761   # VCOM AI
