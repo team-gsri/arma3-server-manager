@@ -28,8 +28,7 @@ switch ($Type) {
         & gh release download --repo $Path --pattern *.pbo --dir ${MissionPath}
     }
     'Local' {
-        $Mission = Get-ChildItem $Path -Filter *.pbo | Select-Object -First 1
-        Write-Debug "Installing mission $Mission"
-        Copy-Item $Mission $MissionPath
+        Write-Debug "Copying missions from $Path to $MissionPath"
+        Get-ChildItem $Path -Filter *.pbo | Copy-Item -Destination $MissionPath
     }
 }
