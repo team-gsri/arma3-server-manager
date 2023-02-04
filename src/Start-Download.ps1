@@ -20,6 +20,6 @@ Write-Debug "Following addons will be downloaded : $Addons"
 
 if ($null -ne $Addons) {
     $Addons | ForEach-Object {
-        "workshop_download_item 107410 $_"
+        "workshop_download_item 107410 $_ validate"
     } | & "$PSScriptRoot/.functions/Start-SteamcmdCommands.ps1" -Path $Config.WorkshopPath -Quit:$Quit
 }

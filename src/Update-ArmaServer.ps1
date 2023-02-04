@@ -8,7 +8,11 @@ param (
     [Parameter()]
     [ValidateScript({ If (Test-Path $_ -PathType Leaf) { $true } Else { Throw '-GithubSecretFile not found' } })]
     [string]
-    $GithubSecretFile = $(Join-Path $env:USERPROFILE .secrets/github.txt)
+    $GithubSecretFile = $(Join-Path $env:USERPROFILE .secrets/github.txt),
+
+    [Parameter()]
+    [switch]
+    $Faster
 )
 
 # Configuration
@@ -20,8 +24,10 @@ $KeyPath = Join-Path $Config.MasterPath keys
 $Addons = $config.Mods + $config.ClientMods + $config.ServerMods | Select-Object -Unique
 
 #  Update content
-& "$PSScriptRoot/Stop-ArmaServer.ps1" -ConfigFilename $ConfigFilename
-& "$PSScriptRoot/Start-Download.ps1" -ConfigFilename $ConfigFilename -Quit
+if (-Not $Faster) {
+    & "$PSScriptRoot/Stop-ArmaServer.ps1" -ConfigFilename $ConfigFilename
+    & "$PSScriptRoot/Start-Download.ps1" -ConfigFilename $ConfigFilename -Quit
+}
 $Addons | & "$FunctionsPath/Copy-BohemiaKeys.ps1" -WorkshopPath $Config.WorkshopPath -DestinationPath $KeyPath
 & "$FunctionsPath/Copy-Mission.ps1" -MissionPath $MissionPath -GithubSecretFile $GithubSecretFile -Type $config.Mission.Type -Path $config.Mission.Path
 
