@@ -7,7 +7,11 @@ param (
 
     [Parameter()]
     [switch]
-    $Faster
+    $Faster,
+
+    [Parameter()]
+    [string]
+    $Username = $env:STEAM_USERNAME
 )
 
 # Configuration
@@ -21,7 +25,7 @@ $Addons = $config.Mods + $config.ClientMods + $config.ServerMods | Select-Object
 #  Update content
 if (-Not $Faster) {
     & "$PSScriptRoot/Stop-ArmaServer.ps1" -ConfigFilename $ConfigFilename
-    & "$PSScriptRoot/Start-Download.ps1" -ConfigFilename $ConfigFilename -Quit
+    & "$PSScriptRoot/Start-Download.ps1" -ConfigFilename $ConfigFilename -Username $Username -Quit
 }
 $Addons | & "$FunctionsPath/Copy-BohemiaKeys.ps1" -WorkshopPath $Config.WorkshopPath -DestinationPath $KeyPath
 & "$FunctionsPath/Copy-Mission.ps1" -MissionPath $MissionPath -Type $config.Mission.Type -Path $config.Mission.Path
