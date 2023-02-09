@@ -1,28 +1,36 @@
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess)]
 param (
     [Parameter(Mandatory)]
     [string]
-    $MissionPath,
+    $Target,
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateSet('Github', 'Local')]
     [string]
-    $Type,
+    $SourceType,
 
-    [Parameter()]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [string]
-    $Path
+    $Source
 )
 
-# Remove existing missions
-Get-ChildItem $MissionPath -Filter *.pbo | Remove-Item
+Begin {
+    # Remove existing missions
+    If (-Not(Test-Path $Target)) { New-Item $Target -ItemType Directory | Out-Null }
+    Get-ChildItem $Target -Filter *.pbo | Remove-Item
+}
 
-switch ($Type) {
-    'Github' {
-        Write-Debug "Downloading mission from GitHub repository $($Path)"
-        & gh release download --repo $Path --pattern *.pbo --dir ${MissionPath}
-    }
-    'Local' {
-        Write-Debug "Copying missions from $Path to $MissionPath"
-        Get-ChildItem $Path -Filter *.pbo | Copy-Item -Destination $MissionPath
+Process {
+    switch ($SourceType) {
+        'Github' {
+            Write-Debug "Downloading mission from GitHub repository $Source"
+            if ($PSCmdlet.ShouldProcess("github.com/$Source", 'release download *.pbo')) {
+                & gh release download --repo $Source --pattern *.pbo --dir $Target
+            }
+        }
+        'Local' {
+            Write-Debug "Copying missions from $Source to $Target"
+            Get-ChildItem $Source -Filter *.pbo -Recurse | Copy-Item -Destination $Target
+        }
     }
 }

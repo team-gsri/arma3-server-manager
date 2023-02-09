@@ -1,4 +1,4 @@
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess)]
 param (
     [Parameter()]
     [string]
@@ -38,13 +38,12 @@ $PasswordAdmin = (1..32 | ForEach-Object { '{0:x2}' -f (Get-Random -Maximum 256)
 $_Hostname = """$Hostname"""
 $_Password = """$Password"""
 $_MaxPlayers = $Players
-$_Admins   = "{ ""$($Admins -Join '","')"" }"
+$_Admins = "{ ""$($Admins -Join '","')"" }"
 $_PasswordAdmin = """$PasswordAdmin"""
 $_Mission = """$Mission"""
 $_DisableChannels = "{ $($DisableChannels -Join ',') }"
 $_VerifySignatures = $VerifySignatures ? 2 : 0
 
-'' | Set-Content $File
-Get-Content $PSScriptRoot/../.templates/server.cfg | ForEach-Object {
-    $ExecutionContext.InvokeCommand.ExpandString($_) | Add-Content $File
-}
+(Get-Content $PSScriptRoot/../.templates/server.cfg | ForEach-Object {
+    $ExecutionContext.InvokeCommand.ExpandString($_)
+}) -Join [System.Environment]::Newline | Set-Content $File
