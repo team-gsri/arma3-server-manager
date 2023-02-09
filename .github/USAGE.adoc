@@ -4,10 +4,11 @@
 
 === Softwares
 
-* https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip[Steamcmd]
-* https://github.com/dyc3/steamguard-cli[steamguard-cli]
-* https://github.com/PowerShell/PowerShell[Pwsh 7+]
-* https://cli.github.com/[GitHub CLI]
+* https://github.com/PowerShell/PowerShell[Pwsh 7+]: appliction runtime
+* https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip[Steamcmd]: used for arma 3 server and workshop items download
+* https://cli.github.com/[GitHub CLI]: used for Github repositories release content download
+
+All 3 softwares should be accessible from the system PATH environment variable.
 
 === Accounts
 
@@ -15,30 +16,35 @@
 * https://store.steampowered.com/login[A steam account] with the following caracteristics:
 ** Own https://store.steampowered.com/app/107410[Arma 3 base game] (DLC not needed)
 ** Not https://help.steampowered.com/en/faqs/view/71D3-35C2-AD96-AA3A[limited account] (buying Arma 3 should be enough)
-** https://help.steampowered.com/en/faqs/view/06B0-26E6-2CF8-254C[Steam Guard on] (if currently off, do not enable and see below)
+** https://help.steampowered.com/en/faqs/view/06B0-26E6-2CF8-254C[Steam Guard on] is recommended
 
 == Installation
 
 === Environment variables
 
-STEAMCMD:: Path to the steamcmd executable (ex: `C:\Program Files (x86)\steamcmd\steamcmd.exe`)
-STEAMGUARD:: Path to the steamguard-cli executable (ex: `C:\Program Files\steamguard\steamguard-cli.exe`)
+STEAM_USERNAME:: Login to your steam account used to download binaries and workshop contents
 
-GitHub CLI should be in the PATH environment variable.
+=== Authentication
 
-=== Credentials
+==== SteamCMD
 
-* Steam account credentials
-** Create a file with your credentials: login and password, separated by a whitespace
-** Save as: `C:\Windows\ServiceProfiles\LocalService\.secrets\steam.txt`
-* GitHub personal access token
-** Create a file with a https://github.com/settings/tokens[GitHub personal access token] allowing `read:packages`
-** Save as: `C:\Windows\ServiceProfiles\LocalService\.secrets\github.txt`
-* Steam Guard
-** Follow the tutorial on https://github.com/Jessecar96/SteamDesktopAuthenticator[SteamDesktopAuthenticator] (you need to disable Steam Guard first if already on)
-** Copy your `maFiles` directory to `C:\Windows\ServiceProfiles\LocalService\AppData\Roaming\steamguard-cli`
+This tool needs to log into the Steam network, because you need to own Arma 3 in order to download mods and dedicated server. The tool will use the environment variable `STEAM_USERNAME` and the steamcmd cached credentials. You need to authenticate once with the steamcmd tool before using the tool. You will need to authenticate again when your password change, or after adding or removing steam guard.
 
-WARNING: **Backup your maFiles directory unless you want to risk loosing you steam account !**
+Use the following command to initialize credentials cache:
+
+`steamcmd +login <username> <password> +quit`
+
+If you have Steam Guard activated, you will need to enter a valid token.
+
+==== Github CLI
+
+NOTE: You may ignore this section if you don't intend to download missions or mods from GitHub
+
+The same principles apply to the Github CLI. The GitHub CLI is used to download missions and mods from GitHub repositories. The CLI requires the client to authenticate despite the release contents to be publicly available. However, this allows you to access private repositories or enterprise servers as well.
+
+Use the following command to initialize credentials cache:
+
+`gh auth login --with-token < token.txt`
 
 == Server configuration
 
