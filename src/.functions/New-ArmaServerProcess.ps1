@@ -3,12 +3,7 @@ param (
     [Parameter(Mandatory)]
     [ValidateScript({ If (Test-Path $_ -PathType Leaf) { $true } Else { Throw '-ConfigFilename not found' } })]
     [string]
-    $ConfigFilename,
-
-    [Parameter()]
-    [ValidateScript({ If (Test-Path $_ -PathType Leaf) { $true } Else { Throw '-GithubSecretFile not found' } })]
-    [string]
-    $GithubSecretFile = $(Join-Path $env:USERPROFILE .secrets/github.txt)
+    $ConfigFilename
 )
 
 # Configuration

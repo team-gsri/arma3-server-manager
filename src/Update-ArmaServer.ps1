@@ -6,11 +6,6 @@ param (
     $ConfigFilename,
 
     [Parameter()]
-    [ValidateScript({ If (Test-Path $_ -PathType Leaf) { $true } Else { Throw '-GithubSecretFile not found' } })]
-    [string]
-    $GithubSecretFile = $(Join-Path $env:USERPROFILE .secrets/github.txt),
-
-    [Parameter()]
     [switch]
     $Faster
 )
@@ -29,7 +24,7 @@ if (-Not $Faster) {
     & "$PSScriptRoot/Start-Download.ps1" -ConfigFilename $ConfigFilename -Quit
 }
 $Addons | & "$FunctionsPath/Copy-BohemiaKeys.ps1" -WorkshopPath $Config.WorkshopPath -DestinationPath $KeyPath
-& "$FunctionsPath/Copy-Mission.ps1" -MissionPath $MissionPath -GithubSecretFile $GithubSecretFile -Type $config.Mission.Type -Path $config.Mission.Path
+& "$FunctionsPath/Copy-Mission.ps1" -MissionPath $MissionPath -Type $config.Mission.Type -Path $config.Mission.Path
 
 # Generate server config
 If (-Not(Test-Path $Config.ConfigPath)) { New-Item $Config.ConfigPath -ItemType Directory | Out-Null }
