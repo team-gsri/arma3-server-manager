@@ -7,7 +7,11 @@ param (
 
     [Parameter()]
     [switch]
-    $Quit
+    $Quit,
+
+    [Parameter()]
+    [string]
+    $Username = $env:STEAM_USERNAME
 )
 
 $Config = Import-PowerShellDataFile $ConfigFilename
@@ -16,10 +20,10 @@ Write-Debug "Following addons will be downloaded : $Addons"
 
 @( 233780 ) | ForEach-Object {
     "app_update $_ validate"
-} | & "$PSScriptRoot/.functions/Start-SteamcmdCommands.ps1" -Path $Config.MasterPath -Quit
+} | & "$PSScriptRoot/.functions/Start-SteamcmdCommands.ps1" -Path $Config.MasterPath -Quit -Username $Username
 
 if ($null -ne $Addons) {
     $Addons | ForEach-Object {
         "workshop_download_item 107410 $_ validate"
-    } | & "$PSScriptRoot/.functions/Start-SteamcmdCommands.ps1" -Path $Config.WorkshopPath -Quit:$Quit
+    } | & "$PSScriptRoot/.functions/Start-SteamcmdCommands.ps1" -Path $Config.WorkshopPath -Quit:$Quit -Username $Username
 }
