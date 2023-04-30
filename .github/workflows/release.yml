@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
-    # paths: ["src/**"]
+    paths: ["src/**"]
 
 jobs:
   release:
@@ -17,7 +17,7 @@ jobs:
         id: new-version
         uses: arwynfr/actions-conventional-versioning/get-newVersion@v1
 
-      - name: 'Copy templates'
+      - name: Publish module on PSGallery
         shell: pwsh
         run: build/Release.ps1 -Version ${{ steps.new-version.outputs.next-version }} -ApiKey ${{ secrets.PSGALLERY_APIKEY }} -Verbose
 
