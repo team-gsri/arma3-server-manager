@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
-    paths: ["src/**"]
+    # paths: ["src/**"]
 
 jobs:
   release:
@@ -19,7 +19,7 @@ jobs:
 
       - name: 'Copy templates'
         shell: pwsh
-        run: build/Release.ps1 -Version ${{ steps.new-version.outputs.next-version }} -ApiKey ${{ secrets.PSGALLERY_APIKEY }}
+        run: build/Release.ps1 -Version ${{ steps.new-version.outputs.next-version }} -ApiKey ${{ secrets.PSGALLERY_APIKEY }} -Verbose
 
       - name: Tag new version on the repository
         uses: arwynfr/actions-conventional-versioning@v1
