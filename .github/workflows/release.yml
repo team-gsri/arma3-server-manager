@@ -27,7 +27,7 @@ jobs:
 
       - name: 'Make module file'
         shell: pwsh
-        run: Get-ChildItem src -Filter '*.pbo' | & build/New-PowershellModuleFile.ps1 -DestinationPath out/ArmaServer/ArmaServer.psm1 -Force
+        run: Get-ChildItem src -Filter '*.ps1' | & build/New-PowershellModuleFile.ps1 -DestinationPath out/ArmaServer/ArmaServer.psm1 -Force
 
       - name: 'Update manifest version'
         shell: pwsh
