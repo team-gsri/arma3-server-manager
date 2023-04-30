@@ -6,6 +6,7 @@
   Author            = 'www.gsri.team'
   CompanyName       = 'GSRI'
   Copyright         = '(c) GSRI. All rights reserved.'
+  Description       = 'This module handles Arma 3 dedicated servers'
   VariablesToExport = '*'
   FunctionsToExport = @(
     'Install-ArmaServer'
