@@ -1,0 +1,43 @@
+name: release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ["src/**"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - uses: actions/checkout@v3
+      
+      - name: Get new version
+        id: new-version
+        uses: arwynfr/actions-conventional-versioning/get-newVersion@v1
+
+      - name: 'Copy templates'
+        shell: pwsh
+        run: Copy-Item src/.templates out/ArmaServer/.templates -Recurse -Force
+
+      - name: 'Copy manifest'
+        shell: pwsh
+        run: Copy-Item build/ArmaServer.psd1 out/ArmaServer/ArmaServer.psd1 -Force
+
+      - name: 'Make module file'
+        shell: pwsh
+        run: Get-ChildItem src -Filter '*.pbo' | & build/New-PowershellModuleFile.ps1 -DestinationPath out/ArmaServer/ArmaServer.psm1 -Force
+
+      - name: 'Update manifest version'
+        shell: pwsh
+        run: Update-ModuleManifest -ModuleVersion ${{ steps.new-version.outputs.next-version }} out/ArmaServer/ArmaServer.psd1
+
+      - name: 'Publish to PSGallery'
+        uses: aammirmirza/Publish2PSGallery@PSGallery_v2
+        with:
+          NuGetApiKey: ${{ secrets.PSGALLERY_APIKEY }}
+          modulePath: out/ArmaServer
+
+      - name: Tag new version on the repository
+        uses: arwynfr/actions-conventional-versioning@v1

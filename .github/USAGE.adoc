@@ -4,10 +4,11 @@
 
 === Softwares
 
-* https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip[Steamcmd]
-* https://github.com/dyc3/steamguard-cli[steamguard-cli]
-* https://github.com/PowerShell/PowerShell[Pwsh 7+]
-* https://cli.github.com/[GitHub CLI]
+* https://github.com/PowerShell/PowerShell[Pwsh 7+]: appliction runtime
+* https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip[Steamcmd]: used for arma 3 server and workshop items download
+* https://cli.github.com/[GitHub CLI]: used for Github repositories release content download
+
+All 3 softwares should be accessible from the system PATH environment variable.
 
 === Accounts
 
@@ -15,34 +16,17 @@
 * https://store.steampowered.com/login[A steam account] with the following caracteristics:
 ** Own https://store.steampowered.com/app/107410[Arma 3 base game] (DLC not needed)
 ** Not https://help.steampowered.com/en/faqs/view/71D3-35C2-AD96-AA3A[limited account] (buying Arma 3 should be enough)
-** https://help.steampowered.com/en/faqs/view/06B0-26E6-2CF8-254C[Steam Guard on] (if currently off, do not enable and see below)
+** https://help.steampowered.com/en/faqs/view/06B0-26E6-2CF8-254C[Steam Guard on] is recommended
 
 == Installation
 
-=== Environment variables
-
-STEAMCMD:: Path to the steamcmd executable (ex: `C:\Program Files (x86)\steamcmd\steamcmd.exe`)
-STEAMGUARD:: Path to the steamguard-cli executable (ex: `C:\Program Files\steamguard\steamguard-cli.exe`)
-
-GitHub CLI should be in the PATH environment variable.
-
-=== Credentials
-
-* Steam account credentials
-** Create a file with your credentials: login and password, separated by a whitespace
-** Save as: `C:\Windows\ServiceProfiles\LocalService\.secrets\steam.txt`
-* GitHub personal access token
-** Create a file with a https://github.com/settings/tokens[GitHub personal access token] allowing `read:packages`
-** Save as: `C:\Windows\ServiceProfiles\LocalService\.secrets\github.txt`
-* Steam Guard
-** Follow the tutorial on https://github.com/Jessecar96/SteamDesktopAuthenticator[SteamDesktopAuthenticator] (you need to disable Steam Guard first if already on)
-** Copy your `maFiles` directory to `C:\Windows\ServiceProfiles\LocalService\AppData\Roaming\steamguard-cli`
-
-WARNING: **Backup your maFiles directory unless you want to risk loosing you steam account !**
+. Login to your Steam account using the `steamcmd` command line utility
+. Login to your GitHub account using the `gh` command line utility
+. Set the `STEAM_USERNAME` to the steam account username used previously
 
 == Server configuration
 
-All configuration regarding your server must go into a configuration file. This file is expected to use PSD1 format. You can use a custom path for the file using `-ConfigFilename`
+All configuration regarding your server must go into a configuration file. This file is expected to use PSD1 format.
 
 Exemple file:
 
@@ -53,10 +37,10 @@ Exemple file:
     HeadlessAffinity = 10                                  # bitmask for CPU affinity of the headless client
 
     Hostname         = '[FR] SERVER NAME | www.gsri.team'  # name of the server visible on the launcher
+    DefaultMission   = 'CONT_Orion.Malden'                 # name of the mission the server will load at start
     Password         = 'bouh!'                             # password for client connection
     Players          = 32                                  # max players for the server
     VerifySignatures = $true                               # wether the server should verify clients pbo signatures
-    Update           = $true                               # wether to try to update Arma 3, mods and config before server start
     Headless         = $true                               # wether to start a headless client with the server
     DisableChannels  = @(0, 1, 2, 3, 4, 5)                 # radio channels to disable, see https://community.bistudio.com/wiki/enableChannel
 
@@ -65,8 +49,8 @@ Exemple file:
     )
 
     Mods             = @(                                  # list of mods used both on clients and server
-        450814997                                          # workshop item id
-        'C:\mods\@GSRI'                                    # absolute path to local mod
+        450814997                                          # - workshop item id
+        'C:\mods\@GSRI'                                    # - absolute path to local mod
     )
     ClientMods       = @(                                  # list of mods whose keys get added to the server
         463939057
@@ -77,17 +61,12 @@ Exemple file:
 
     # Select one of below options, depending on how you want to obtain the mission pbo file:
 
-    Mission          = @{                                  # the mission that will run on the server
-        Type = 'Local'                                     # when you have the pbo file locally
-        Path = 'C:\Arma3\instances\abcd\mission'            # the script will look into this directory
+    Missions         = @{                                  # the mission that will run on the server
+        'team-gsri/Orion'                                  # - github repository
+        'C:\Arma3\missions\custom'                         # - absolute path to pbo mission files
     }
 
-    Mission          = @{                                  # the mission to run on the server
-        Type = 'Github'                                    # when you want to download the pbo from GitHub
-        Path = 'team-gsri/Entrainement'                    # the script will look into this repository's latest release
-    }
-
-    WorkshopPath     = 'C:\Arma3'                          # Path for workshop mods (WorkshopPath/steamapps/workshop/ ...)
+    WorkshopPath     = 'C:\Arma3'                          # Path where workshop mods get downloaded
     MasterPath       = 'C:\Arma3\instances\abcd\master'    # Path for the Arma3 server executable
     ConfigPath       = 'C:\Arma3\instances\abcd\config'    # Path for server.cfg, basic.cfg, and pid files
     ProfilePath      = 'C:\Arma3\instances\abcd\profile'   # Path for the server profile
@@ -98,19 +77,23 @@ CAUTION: Server and Headless affinity are bitmasks, allowing each process to run
 
 == Usage
 
-The server will run under the `LocalService` account.
+NOTE: All commands require administrator privileges
 
-All commands expect a single argument with the ConfigFilename to use.
- 
-* `Enable-ArmaServer.ps1` and `Disable-ArmaServer.ps1` will toggle a scheduled task to restart the server on a daily basis.
-** If the task does not exist, enabling it will create the task with a default schedule at 5AM ;
-** Disabling a server will not actually stop the instance, unless adding the `-Stop` switch
-* `Start-ArmaServer.ps1` and `Stop-ArmaServer.ps1` will start and stop the server immediately
-** Starting a server will create and enable the scheduled task
-** Starting a running server will restart the server, stopping the current instance first
-** The script use PID files to identify the processes, so you can run multiple instances on the same box
-* `Update-ArmaServer.ps1` can be used to manually update both the game, mods, configs, and mission
+The following commands are available:
+
+* `Install-ArmaServer`: This command will install the server:
+** Download Arma 3 dedicated server binaries and workshop content
+** Download missions from GitHub releases
+** Install BI Keys, mission files, and config files
+* `Start-ArmaServer`: Starts the server using the current user's context
+** If the server is already running, it will try to stop it first
+** It will also run `Install-ArmaServer` before running the server
+* `Stop-ArmaServer`: Stops the currently running server
+* `Register-ArmaServerTask`: This command will register a scheduled task that will restart the server every day
+** `-UserId` the user which will run the server (default: `LocalService`)
+** `-At` time of the day for the server restart (default: 5AM)
+** `-Force` overwrite the existing task
+* `Get-ArmaServerTask`: shorthand command to get the server's scheduled task:
+** `Get-ArmaServerTask -ConfigFilename argon.psd1 | Unregister-ScheduledTask`
 
 IMPORTANT: Due to a bug in steamcmd, download of larger mods will timeout. In that case, you can use `Start-Download.ps1`. This script will start the download and yield an error. Then you can **wait despite the error** and the download will actually continue in the background. Watch your network bandwidth for completion, then use `quit` to exit steamcmd.
-
-
