@@ -1,0 +1,17 @@
+name: merge
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout files
+      uses: actions/checkout@v3
+
+    - name: Lint sources
+      shell: pwsh
+      run: Invoke-ScriptAnalyzer -Recurse -Severity Warning ./src

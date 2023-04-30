@@ -1,15 +1,30 @@
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess)]
 param (
-    [Parameter(Mandatory)]
-    [ValidateScript({ If (Test-Path $_ -PathType Leaf) { $true } Else { Throw '-ConfigFilename not found' } })]
-    [string]
-    $ConfigFilename
+  [Parameter(Mandatory)]
+  [ValidateScript({ Test-Path $_ -PathType Leaf }, ErrorMessage = 'Filename not found')]
+  [string]
+  $ConfigFilename
 )
 
-$TaskInfo = @{
-    TaskName = (Get-Item $ConfigFilename).BaseName
-    TaskPath = '\Arma3\'
+Begin {
+  $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+  $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+  if (-Not $isAdmin) {
+    throw 'This operation requires administrator privileges'
+  }
+  
+  $Config = Import-PowerShellDataFile $ConfigFilename
+  $TranscriptPath = Join-Path $Config.ProfilePath pslogs
+  Start-Transcript -OutputDirectory $TranscriptPath
 }
 
-& "$PSScriptRoot/Enable-ArmaServer.ps1" -ConfigFilename $ConfigFilename
-Start-ScheduledTask @TaskInfo
+Process {
+  Stop-ArmaServer -ConfigFilename $ConfigFilename
+  Install-ArmaServer -ConfigFilename $ConfigFilename
+  ArmaServer-InvokeServerProcess -ConfigFilename $ConfigFilename
+  ArmaServer-InvokeHeadlessProcess -ConfigFilename $ConfigFilename
+}
+
+End {
+  Stop-Transcript
+}

@@ -1,33 +1,22 @@
 [CmdletBinding(SupportsShouldProcess)]
 param (
-    [Parameter(Mandatory)]
-    [ValidateScript({ If (Test-Path $_ -PathType Leaf) { $true } Else { Throw '-ConfigFilename not found' } })]
-    [string]
-    $ConfigFilename
-)
+  [Parameter(Mandatory)]
+  [ValidateScript({ Test-Path $_ -PathType Leaf }, ErrorMessage = 'Filename not found')]
+  [string]
+  $ConfigFilename
+) 
 
-function Stop-ProcessFromPidFile {
-    [CmdletBinding()]
-    param (
-        [Parameter()]
-        [string]
-        $Filename
-    )
-
-    Process {
-        If (Test-Path -PathType Leaf $Filename) {
-            Get-Process -Id $(Get-Content $Filename) | Stop-Process -Force
-        }
-    }
-
-    End {
-        If (Test-Path -PathType Leaf $Filename) {
-            Remove-Item -Force $Filename
-        }
-    }
+End {
+  $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+  $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+  if (-Not $isAdmin) {
+    throw 'This operation requires administrator privileges'
+  }
+  
+  Write-Verbose 'Stopping server process from PID files'
+  $Config = Import-PowerShellDataFile $ConfigFilename
+  @(
+    $(Join-Path $Config.ConfigPath headless.pid)
+    $(Join-Path $Config.ConfigPath server.pid)
+  ) | ArmaServer-StopProcessFromPidFile
 }
-
-Write-Debug 'Attempting to stop server instance'
-$Config = Import-PowerShellDataFile $ConfigFilename
-Stop-ProcessFromPidFile -Filename $(Join-Path $Config.ConfigPath headless.pid)
-Stop-ProcessFromPidFile -Filename $(Join-Path $Config.ConfigPath server.pid)
