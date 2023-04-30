@@ -17,7 +17,7 @@
     'Register-ArmaServerTask'
     'Get-ArmaServerTask'
   )
-  PrivateData       = {
+  PrivateData       = @{
     ProjectUri = 'https://github.com/team-gsri/arma3-server-manager'
     LicenseUri = 'https://github.com/team-gsri/arma3-server-manager/blob/master/LICENSE'
     ExternalModuleDependencies = @(
