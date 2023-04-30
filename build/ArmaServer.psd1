@@ -15,6 +15,12 @@
     'Register-ArmaServerTask'
     'Get-ArmaServerTask'
   )
+  FileList          = @(
+    'ArmaServer.psd1'
+    'ArmaServer.psm1'
+    '.templates/basic.cfg'
+    '.templates/server.cfg'
+  )
   PrivateData       = @{
     ProjectUri = 'https://github.com/team-gsri/arma3-server-manager'
     LicenseUri = 'https://github.com/team-gsri/arma3-server-manager/blob/master/LICENSE'
