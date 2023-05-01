@@ -7,12 +7,6 @@ param (
 )
 
 Begin {
-  $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-  $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-  if (-Not $isAdmin) {
-    throw 'This operation requires administrator privileges'
-  }
-
   $Config = Import-PowerShellDataFile $ConfigFilename
   $KeysPath = Join-Path $Config.MasterPath keys
   $MissionsPath = Join-Path $Config.MasterPath mpmissions
