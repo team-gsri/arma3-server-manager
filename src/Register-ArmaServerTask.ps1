@@ -20,10 +20,10 @@ param (
 
 $PwshExe = (Get-Command pwsh).Path
 $ConfigFilename = Resolve-Path $ConfigFilename
-$ArgumentString = "-ExecutionPolicy Bypass -Command { Start-ArmaServer -ConfigFilename $ConfigFilename -Verbose }"
+$ArgumentString = "-ExecutionPolicy Bypass -NonInteractive -Command Start-ArmaServer -ConfigFilename $ConfigFilename -Verbose"
 
 $SchedulerArguments = @{
-  Action    = New-ScheduledTaskAction -Execute $PwshExe -Argument $ArgumentString
+  Action    = New-ScheduledTaskAction -Execute """$PwshExe""" -Argument $ArgumentString
   Principal = New-ScheduledTaskPrincipal -UserId $UserId -LogonType ServiceAccount
   Trigger   = New-ScheduledTaskTrigger -Daily -At $At
   TaskName  = (Get-Item $ConfigFilename).BaseName
