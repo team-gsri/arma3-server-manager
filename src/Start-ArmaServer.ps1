@@ -16,7 +16,9 @@ Process {
   Stop-ArmaServer -ConfigFilename $ConfigFilename
   Install-ArmaServer -ConfigFilename $ConfigFilename
   ArmaServer-InvokeServerProcess -ConfigFilename $ConfigFilename
-  ArmaServer-InvokeHeadlessProcess -ConfigFilename $ConfigFilename
+  if ($Config.Headless) {
+    ArmaServer-InvokeHeadlessProcess -ConfigFilename $ConfigFilename
+  }
 }
 
 End {
