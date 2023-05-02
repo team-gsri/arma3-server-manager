@@ -7,7 +7,9 @@ param (
 
 Process {
     If (Test-Path -PathType Leaf $Filename) {
-        Get-Process -Id $(Get-Content $Filename) -ErrorAction SilentlyContinue | Stop-Process -Force
+        $ProcessId = Get-Content $Filename
+        Write-Verbose "$Filename found, attempting to stop process $ProcessId"
+        Get-Process -Id $ProcessId -ErrorAction SilentlyContinue | Stop-Process -Force
         Remove-Item -Force $Filename
     }
 }
