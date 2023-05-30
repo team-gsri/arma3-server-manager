@@ -15,11 +15,11 @@ jobs:
 
       - name: Get new version
         id: new-version
-        uses: arwynfr/actions-conventional-versioning/get-newVersion@v1
+        uses: arwynfr/actions-conventional-versioning/get-newVersion@v3
 
       - name: Publish module on PSGallery
         shell: pwsh
         run: build/Release.ps1 -Version ${{ steps.new-version.outputs.next-version }} -ApiKey ${{ secrets.PSGALLERY_APIKEY }} -Verbose
 
       - name: Tag new version on the repository
-        uses: arwynfr/actions-conventional-versioning@v1
+        uses: arwynfr/actions-conventional-versioning@v3
