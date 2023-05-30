@@ -16,6 +16,10 @@ jobs:
       - name: Get new version
         id: new-version
         uses: arwynfr/actions-conventional-versioning/get-newVersion@v3
+        with:
+          allow-additional-modifiers: true
+          feat-upgrades-minor: false
+          strict-types: true
 
       - name: Publish module on PSGallery
         shell: pwsh
@@ -23,3 +27,7 @@ jobs:
 
       - name: Tag new version on the repository
         uses: arwynfr/actions-conventional-versioning@v3
+        with:
+          allow-additional-modifiers: true
+          feat-upgrades-minor: false
+          strict-types: true
