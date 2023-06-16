@@ -31,13 +31,6 @@ Begin {
   $MasterPath = Convert-Path $MasterPath
   $WorkshopPath = Convert-Path $WorkshopPath
   $CommandsFilename = $(New-TemporaryFile) ?? 'New-TemporaryFile'
-  @(
-    '@NoPromptForPassword 1'
-    "force_install_dir ${MasterPath}"
-    "login ${Username}"
-    'app_update 233780 validate'
-    "force_install_dir ${WorkshopPath}"
-  ) | Add-Content $CommandsFilename
 }
 
 Process {
@@ -47,16 +40,13 @@ Process {
 }
 
 End {
-  if ($Quit) {
-    'quit' | Add-Content $CommandsFilename
-  }
-
   if (Test-Path $CommandsFilename) {
     Get-Content -Raw $CommandsFilename | Write-Debug
   }
 
   If ($PSCmdlet.ShouldProcess("$CommandsFilename", 'steamcmd runscript')) {
-    & steamcmd +runscript $CommandsFilename
+    'app_update 233780 validate' | ArmaServer-InvokeSteamCmd -Path $MasterPath -Quit -Username $Username
+    Get-Content -Raw $CommandsFilename | ArmaServer-InvokeSteamCmd -Path $WorkshopPath -Quit:$Quit -Username $Username
   }
 
   Remove-Item $CommandsFilename -Force -ErrorAction SilentlyContinue
