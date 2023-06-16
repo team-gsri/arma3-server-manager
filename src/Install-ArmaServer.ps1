@@ -15,6 +15,8 @@ Begin {
 
 End {
   Stop-ArmaServer -ConfigFilename $ConfigFilename
+  New-Item $Config.MasterPath -ItemType Directory -Force | Out-Null
+  New-Item $Config.WorkshopPath -ItemType Directory -Force | Out-Null
   $Addons | ArmaServer-InvokeDownload -MasterPath $Config.MasterPath -WorkshopPath $Config.WorkshopPath -Quit
   $Addons | ArmaServer-InstallBohemiaKeys -DestinationPath $KeysPath -WorkshopPath $Config.WorkshopPath
   $Config.Missions | ArmaServer-InstallMission -DestinationPath $MissionsPath
