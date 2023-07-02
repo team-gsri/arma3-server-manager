@@ -19,7 +19,7 @@ param (
 )
 
 Begin {
-  $Path = Convert-Path $MasterPath
+  $Path = Convert-Path $Path
   $CommandsFilename = $(New-TemporaryFile) ?? 'New-TemporaryFile'
   @(
     '@NoPromptForPassword 1'
