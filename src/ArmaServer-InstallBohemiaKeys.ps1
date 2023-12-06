@@ -15,18 +15,8 @@ param (
 
   [Parameter()]
   [string]
-  $WorkshopPattern = '^[0-9]+$',
-
-  [Parameter()]
-  [uri]
-  $OfficialKeysUri = 'https://arma.gsri.team/legacy/keys.zip'
+  $WorkshopPattern = '^[0-9]+$'
 )
-
-Begin {
-  Write-Verbose "Removing old keys from $DestinationPath"
-  New-Item $DestinationPath -ItemType Directory -Force | Out-Null
-  Get-ChildItem -Recurse -Filter *.bikey $DestinationPath | Remove-Item -Force
-}
 
 Process {
   $AddonPath = switch ($true) {
@@ -42,12 +32,4 @@ Process {
 
   Write-Verbose "Copy addon keys from $AddonPath"
   Get-ChildItem $AddonPath -Recurse -Filter '*.bikey' | Copy-Item -Destination $DestinationPath
-}
-
-End {
-  $KeysZip = New-TemporaryFile
-  Write-Verbose "Download official BI keys from $OfficialKeysUri"
-  Invoke-WebRequest -Uri $OfficialKeysUri -OutFile $KeysZip
-  Expand-Archive -Path $KeysZip -DestinationPath $DestinationPath
-  Remove-Item -Force $KeysZip
 }
