@@ -24,7 +24,11 @@ param (
 
   [Parameter()]
   [string]
-  $WorkshopPattern = '^[0-9]+$'
+  $WorkshopPattern = '^[0-9]+$',
+
+  [Parameter()]
+  [string]
+  $Beta
 )
 
 Begin {
@@ -45,7 +49,7 @@ End {
   }
 
   If ($PSCmdlet.ShouldProcess("$CommandsFilename", 'steamcmd runscript')) {
-    'app_update 233780 validate' | ArmaServer-InvokeSteamCmd -Path $MasterPath -Quit -Username $Username
+    "app_update 233780 -beta ${Beta} validate" | ArmaServer-InvokeSteamCmd -Path $MasterPath -Quit -Username $Username
     Get-Content -Raw $CommandsFilename | ArmaServer-InvokeSteamCmd -Path $WorkshopPath -Quit:$Quit -Username $Username
   }
 
