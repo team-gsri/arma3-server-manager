@@ -8,10 +8,17 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout files
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Checkout files
-      uses: actions/checkout@v3
+      - name: Derive semver version number based on git revision
+        shell: pwsh
+        run: |
+          dotnet tool install -g Octopus.OctoVersion.Tool
+          octoversion --CurrentBranch=${{ github.ref_name }} --OutputFormats:0=Environment >> $GITHUB_ENV
 
-    - name: Lint sources
-      shell: pwsh
-      run: Invoke-ScriptAnalyzer -Recurse -Severity Warning ./src
+      - name: Lint sources
+        shell: pwsh
+        run: Invoke-ScriptAnalyzer -Recurse -Severity Warning ./src

@@ -10,24 +10,21 @@ jobs:
   release:
     runs-on: windows-latest
     steps:
-
-      - uses: actions/checkout@v3
-
-      - name: Get new version
-        id: new-version
-        uses: arwynfr/actions-conventional-versioning/get-newVersion@v3
+      - name: Checkout files
+        uses: actions/checkout@v4
         with:
-          allow-additional-modifiers: true
-          feat-upgrades-minor: false
-          strict-types: true
+          fetch-depth: 0
+
+      - name: Derive semver version number based on git revision
+        shell: pwsh
+        run: |
+          dotnet tool install -g Octopus.OctoVersion.Tool
+          octoversion --CurrentBranch=${{ github.ref_name }} --OutputFormats:0=Environment >> $GITHUB_ENV
 
       - name: Publish module on PSGallery
         shell: pwsh
-        run: build/Release.ps1 -Version ${{ steps.new-version.outputs.next-version }} -ApiKey ${{ secrets.PSGALLERY_APIKEY }} -Verbose
+        run: build/Release.ps1 -Version ${env:OCTOVERSION_FullSemVer} -ApiKey ${{ secrets.PSGALLERY_APIKEY }} -Verbose
 
       - name: Tag new version on the repository
-        uses: arwynfr/actions-conventional-versioning@v3
-        with:
-          allow-additional-modifiers: true
-          feat-upgrades-minor: false
-          strict-types: true
+        shell: pwsh
+        run: gh release create ${env:OCTOVERSION_FullSemVer} --generate-notes
