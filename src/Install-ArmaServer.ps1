@@ -3,7 +3,10 @@ param (
   [Parameter(Mandatory)]
   [ValidateScript({ Test-Path $_ -PathType Leaf }, ErrorMessage = 'Filename not found')]
   [string]
-  $ConfigFilename
+  $ConfigFilename,
+
+  [switch]
+  $NoDownload
 )
 
 Begin {
@@ -19,7 +22,9 @@ End {
   New-Item $Config.WorkshopPath -ItemType Directory -Force | Out-Null
   New-Item $KeysPath -ItemType Directory -Force | Out-Null
   Get-ChildItem -Recurse -Filter *.bikey $KeysPath | Remove-Item -Force
-  $Addons | ArmaServer-InvokeDownload -MasterPath $Config.MasterPath -WorkshopPath $Config.WorkshopPath -Beta $Config.Beta -Quit
+  if (-not $NoDownload) {
+    $Addons | ArmaServer-InvokeDownload -MasterPath $Config.MasterPath -WorkshopPath $Config.WorkshopPath -Beta $Config.Beta -Quit
+  }
   $Addons | ArmaServer-InstallBohemiaKeys -DestinationPath $KeysPath -WorkshopPath $Config.WorkshopPath
   $Config.Missions | ArmaServer-InstallMission -DestinationPath $MissionsPath
   ArmaServer-InstallConfig -ConfigFilename $ConfigFilename
