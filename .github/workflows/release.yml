@@ -19,7 +19,7 @@ jobs:
         shell: pwsh
         run: |
           dotnet tool install -g Octopus.OctoVersion.Tool
-          octoversion --CurrentBranch=${{ github.ref_name }} --OutputFormats:0=Environment >> $GITHUB_ENV
+          octoversion --CurrentBranch=${{ github.ref_name }} --OutputFormats:0=Environment >> $env:GITHUB_ENV
 
       - name: Publish module on PSGallery
         shell: pwsh
