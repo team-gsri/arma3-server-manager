@@ -15,6 +15,7 @@ $BasicFilePath = Join-Path $Config.ConfigPath basic.cfg
 $ServerFilePath = Join-Path $Config.ConfigPath server.cfg
 $MissionsPath = Join-Path $Config.MasterPath 'mpmissions'
 $Config.DefaultMission ??= & $PSScriptRoot/Get-DefaultMission.ps1 -MissionsPath $MissionsPath
+$Config.PasswordAdmin = (1..32 | ForEach-Object { '{0:x2}' -f (Get-Random -Maximum 256) }) -join ''
 
 $TemplateContent = Get-Content $TemplatePath/server.cfg -Raw
 $TemplateContent = $ExecutionContext.InvokeCommand.ExpandString($TemplateContent)
