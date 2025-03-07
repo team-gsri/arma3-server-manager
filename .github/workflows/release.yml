@@ -23,8 +23,8 @@ jobs:
 
       - name: Publish module on PSGallery
         shell: pwsh
-        run: build/Release.ps1 -Version ${env:OCTOVERSION_FullSemVer} -ApiKey ${{ secrets.PSGALLERY_APIKEY }} -Verbose
+        run: build/New-ModuleVersion.ps1 -Version ${env:OCTOVERSION_FullSemVer} -ApiKey ${{ secrets.PSGALLERY_APIKEY }} -Verbose
 
-      - name: Tag new version on the repository
+      - name: Publish release on GitHub
         shell: pwsh
         run: gh release create ${env:OCTOVERSION_FullSemVer} --generate-notes
