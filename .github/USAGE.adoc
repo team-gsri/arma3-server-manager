@@ -36,18 +36,22 @@ Exemple file:
     ServerAffinity   = 5                                   # bitmask for CPU affinity of the server
     HeadlessAffinity = 10                                  # bitmask for CPU affinity of the headless client
 
-    Hostname         = '[FR] SERVER NAME | www.gsri.team'  # name of the server visible on the launcher
+    Hostname         = '[FR] SERVER NAME'                  # name of the server visible on the launcher
     DefaultMission   = 'CONT_Orion.Malden'                 # name of the mission the server will load at start
     Password         = 'bouh!'                             # password for client connection
     Players          = 32                                  # max players for the server
     VerifySignatures = $true                               # wether the server should verify clients pbo signatures
     Headless         = $true                               # wether to start a headless client with the server
     DisableChannels  = @(0, 1, 2, 3, 4, 5)                 # radio channels to disable, see https://community.bistudio.com/wiki/enableChannel
+    Beta             = 'creatordlc'                        # optional steam beta channel
+    WorkshopPath     = 'C:\Arma3'                          # Path where workshop mods get downloaded
+    MasterPath       = 'C:\Arma3\instances\abcd\master'    # Path for the Arma3 server executable
+    ConfigPath       = 'C:\Arma3\instances\abcd\config'    # Path for server.cfg, basic.cfg, and pid files
+    ProfilePath      = 'C:\Arma3\instances\abcd\profile'   # Path for the server profile
 
     Admins           = @(
         76561197967609383 # Arwyn                          # steamid of players allowed to login as admin on the server
     )
-
     Mods             = @(                                  # list of mods used both on clients and server
         450814997                                          # - workshop item id
         'C:\mods\@GSRI'                                    # - absolute path to local mod
@@ -58,18 +62,10 @@ Exemple file:
     ServerMods       = @(                                  # list of mods used on the server but not by clients
         894678801
     )
-
-    # Select one of below options, depending on how you want to obtain the mission pbo file:
-
     Missions         = @{                                  # the mission that will run on the server
         'team-gsri/Orion'                                  # - github repository
-        'C:\Arma3\missions\custom'                         # - absolute path to pbo mission files
+        'C:\Arma3\instances\abcd\missions'                 # - absolute path to directory with pbo missions
     }
-
-    WorkshopPath     = 'C:\Arma3'                          # Path where workshop mods get downloaded
-    MasterPath       = 'C:\Arma3\instances\abcd\master'    # Path for the Arma3 server executable
-    ConfigPath       = 'C:\Arma3\instances\abcd\config'    # Path for server.cfg, basic.cfg, and pid files
-    ProfilePath      = 'C:\Arma3\instances\abcd\profile'   # Path for the server profile
 }
 ```
 
@@ -82,18 +78,14 @@ NOTE: All commands require administrator privileges
 The following commands are available:
 
 * `Install-ArmaServer`: This command will install the server:
-** Download Arma 3 dedicated server binaries and workshop content
+** Download dedicated server binaries
+** Download addons from Steam workshop
 ** Download missions from GitHub releases
 ** Install BI Keys, mission files, and config files
+* `Update-ArmaServer`: This command will refresh the server missions and config only
+** Intended as a faster alternative when you want to test a mission / config
 * `Start-ArmaServer`: Starts the server using the current user's context
 ** If the server is already running, it will try to stop it first
-** It will also run `Install-ArmaServer` before running the server
 * `Stop-ArmaServer`: Stops the currently running server
-* `Register-ArmaServerTask`: This command will register a scheduled task that will restart the server every day
-** `-UserId` the user which will run the server (default: `LocalService`)
-** `-At` time of the day for the server restart (default: 5AM)
-** `-Force` overwrite the existing task
-* `Get-ArmaServerTask`: shorthand command to get the server's scheduled task:
-** `Get-ArmaServerTask -ConfigFilename argon.psd1 | Unregister-ScheduledTask`
 
-IMPORTANT: Due to a bug in steamcmd, download of larger mods will timeout. In that case, you can use `Start-Download.ps1`. This script will start the download and yield an error. Then you can **wait despite the error** and the download will actually continue in the background. Watch your network bandwidth for completion, then use `quit` to exit steamcmd.
+IMPORTANT: Due to a bug in steamcmd, download of larger mods might timeout.
