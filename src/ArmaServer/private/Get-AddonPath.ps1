@@ -1,19 +1,23 @@
 [CmdletBinding(SupportsShouldProcess)]
 param (
-  [Parameter(Mandatory, ValueFromPipeline)]
   [string]
-  $Path,
-    
+  [Parameter(Mandatory, ValueFromPipeline)]
+  $Addon,
+
+  [string]
   [Parameter(Mandatory)]
   [ValidateScript({ Test-Path $_ -PathType Container }, ErrorMessage = 'Path must be a valid directory')]
-  [string]
   $WorkshopPath,
 
-  [Parameter()]
   [string]
-  $WorkshopPattern = '^[0-9]+$'
+  [Parameter()]
+  $WorkshopPattern = '^[0-9]+$',
+
+  [int]
+  [Parameter()]
+  $AppId = 107410
 )
 
 Process {
-  return ($Path -match $WorkshopPattern) ? (Join-Path $WorkshopPath "steamapps/workshop/content/107410/$Path") : $Path
+  return ($Addon -match $WorkshopPattern) ? (Join-Path $WorkshopPath "steamapps/workshop/content/$AppId/$Addon") : $Addon
 }
