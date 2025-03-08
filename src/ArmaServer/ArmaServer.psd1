@@ -1,7 +1,7 @@
 @{
   Author            = 'GSRI'
   CompanyName       = 'GSRI'
-  Copyright         = '(c) GSRI. All rights reserved.'
+  Copyright         = 'Copyright (c) 2022 GSRI'
 
   ModuleVersion     = '0.0.0'
   GUID              = '2d3966b5-34c7-47ac-9263-29ee72bf31b1'
