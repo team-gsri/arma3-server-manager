@@ -13,4 +13,4 @@ if ($null -eq $Mission) {
 }
 
 "Default mission set to $Mission" | Write-Verbose
-return $Mission.Name
+return $Mission.BaseName
